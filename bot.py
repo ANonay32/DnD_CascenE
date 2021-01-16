@@ -32,8 +32,18 @@ async def ping(ctx):
 	await ctx.channel.send("pong")
 
 @bot.command()
-async def game_map(ctx):
-	await ctx.channel.send("```" +
+async def game_map(ctx, width: int, height: int):
+    map = ""
+    for i in range(height):
+        for j in range(width):
+            if j == 0 or j == width - 1:
+                map += "|"
+            elif i == 0 or i == height - 1:
+                map += "‾"
+            else:
+                map += " "
+    await ctx.channel.send("'''" + map + "'''")
+	'''await ctx.channel.send("```" +
                         "|‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾|\n" +
                         "|                                |\n" +
                         "|                                |\n" +
@@ -47,7 +57,7 @@ async def game_map(ctx):
                         "|                                |\n" +
                         "|                                |\n" +
                         "|________________________________|" +
-                        "```")
+                        "```")'''
 
 @bot.command()
 async def print(ctx, arg):
