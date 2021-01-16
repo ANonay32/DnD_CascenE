@@ -4,24 +4,31 @@ nest_asyncio.apply()
 import os, ssl
 if (not os.environ.get('PYTHONHTTPSVERIFY', '') and getattr(ssl, '_create_unverified_context', None)):
     ssl._create_default_https_context = ssl._create_unverified_context
-import discord
+#import discord
+
+from discord.ext import commands
+
 from dotenv import load_dotenv
 
 load_dotenv()
 TOKEN = os.getenv('DISCORD_TOKEN')
 GUILD = os.getenv('DISCORD_GUILD')
 
-client = discord.Client()
+bot = commands.Bot(command_prefix='&')
 
-@client.event
+@bot.event
 async def on_ready():
-    for guild in client.guilds:
+    for guild in bot.guilds:
         if guild.name == GUILD:
             break
         
     print(
-        f'{client.user} is connected to the following guild: \n'
+        f'{bot.user} is connected to the following guild: \n'
         f'{guild.name}(id: {guild.id})'
         )
 
-client.run(TOKEN)
+@bot.command()
+async def ping(ctx):
+	await ctx.channel.send("pong")
+
+bot.run(TOKEN)
