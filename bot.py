@@ -21,7 +21,7 @@ async def on_ready():
     for guild in bot.guilds:
         if guild.name == GUILD:
             break
-        
+
     print(
         f'{bot.user} is connected to the following guild: \n'
         f'{guild.name}(id: {guild.id})'
@@ -30,9 +30,9 @@ async def on_ready():
 @bot.command()
 async def ping(ctx):
 	await ctx.channel.send("pong")
-    
+
 @bot.command()
 async def game_map(ctx):
-	await ctx.channel.send("```|--------------------------------|\n|                                |\n|                                |\n|                                |\n|--------------------------------|```")
+	await ctx.channel.send("```|‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾|\n|                                |\n|                                |\n|                                |\n|--------------------------------|```")
 
 bot.run(TOKEN)
