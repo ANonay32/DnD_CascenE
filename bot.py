@@ -23,19 +23,21 @@ async def ping(ctx):
 @bot.command()
 async def game_map(ctx, width: int, height: int):
     map = ""
-    for i in range(height):
-        for j in range(width):
-            if j == 0 or j == width - 1:
-                map += "|"
-            elif i == 0:
-                map += "‾‾"
-            elif i == height - 1:
-                map += "__"
-            else:
-                map += " "
-        map += "\n"
-
-    await ctx.channel.send("```" + map + "```")
+    if width * height + 1 > 1980:
+        await ctx.channel.send("Given dimensions are too large, map area must be smaller than 1980 units")
+    else:
+        for i in range(height):
+            for j in range(width):
+                if j == 0 or j == width - 1:
+                    map += "|"
+                elif i == 0:
+                    map += "‾‾"
+                elif i == height - 1:
+                    map += "__"
+                else:
+                    map += " "
+            map += "\n"
+        await ctx.channel.send("```" + map + "```")
 
 
 
