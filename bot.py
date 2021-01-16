@@ -1,3 +1,4 @@
+
 import nest_asyncio
 nest_asyncio.apply()
 
@@ -16,6 +17,7 @@ GUILD = os.getenv('DISCORD_GUILD')
 
 bot = commands.Bot(command_prefix='&')
 
+<<<<<<< HEAD
 @bot.event
 async def on_ready():
     for guild in bot.guilds:
@@ -26,27 +28,32 @@ async def on_ready():
         f'{guild.name}(id: {guild.id})'
         )
 
+=======
+>>>>>>> af4fcdd6e6bb759692eae94151c6c974c36f12e1
 @bot.command()
 async def ping(ctx):
 	await ctx.channel.send("pong")
-    
+
 @bot.command()
-async def game_map(ctx):
-	await ctx.channel.send("```" +
-                        "|‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾|\n" +
-                        "|                                |\n" +
-                        "|                                |\n" + 
-                        "|                                |\n" +
-                        "|                                |\n" +
-                        "|                                |\n" +
-                        "|                                |\n" +
-                        "|                                |\n" +
-                        "|                                |\n" +
-                        "|                                |\n" +
-                        "|                                |\n" +
-                        "|                                |\n" +
-                        "|________________________________|" + 
-                        "```")
+async def game_map(ctx, width: int, height: int):
+    map = ""
+    if (width + 1) * height > 1980:
+        await ctx.channel.send("Given dimensions are too large, map area must be smaller than 1980 units")
+    else:
+        for i in range(height):
+            for j in range(width):
+                if j == 0 or j == width - 1:
+                    map += "|"
+                elif i == 0:
+                    map += "‾‾"
+                elif i == height - 1:
+                    map += "__"
+                else:
+                    map += " "
+            map += "\n"
+        await ctx.channel.send("```" + map + "```")
+
+
 
 @bot.command()
 async def print(ctx, arg):
