@@ -1,3 +1,5 @@
+import nest_asyncio
+nest_asyncio.apply()
 
 import os, ssl
 if (not os.environ.get('PYTHONHTTPSVERIFY', '') and getattr(ssl, '_create_unverified_context', None)):
