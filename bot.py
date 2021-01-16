@@ -28,9 +28,9 @@ async def game_map(ctx, width: int, height: int):
             if j == 0 or j == width - 1:
                 map += "|"
             elif i == 0:
-                map += "‾"
+                map += "‾‾"
             elif i == height - 1:
-                map += "_"
+                map += "__"
             else:
                 map += " "
         map += "\n"
