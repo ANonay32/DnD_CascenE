@@ -30,5 +30,9 @@ async def on_ready():
 @bot.command()
 async def ping(ctx):
 	await ctx.channel.send("pong")
+    
+@bot.command()
+async def game_map(ctx):
+	await ctx.channel.send("```|--------------------------------|\n|                                |\n|                                |\n|                                |\n|--------------------------------|```")
 
 bot.run(TOKEN)
