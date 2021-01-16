@@ -33,6 +33,24 @@ async def ping(ctx):
 
 @bot.command()
 async def game_map(ctx):
-	await ctx.channel.send("```|‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾|\n|                                |\n|                                |\n|                                |\n|--------------------------------|```")
+	await ctx.channel.send("```" +
+                        "|‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾|\n" +
+                        "|                                |\n" +
+                        "|                                |\n" +
+                        "|                                |\n" +
+                        "|                                |\n" +
+                        "|                                |\n" +
+                        "|                                |\n" +
+                        "|                                |\n" +
+                        "|                                |\n" +
+                        "|                                |\n" +
+                        "|                                |\n" +
+                        "|                                |\n" +
+                        "|________________________________|" +
+                        "```")
+
+@bot.command()
+async def print(ctx, arg):
+	await ctx.channel.send(arg)
 
 bot.run(TOKEN)
