@@ -36,7 +36,7 @@ async def game_map(ctx, width: int, height: int):
                 elif i == height - 1:
                     map += "__"
                 else:
-                    map += " "
+                    map += "  "
             map += "\n"
         await ctx.channel.send("```" + map + "```")
 
