@@ -49,4 +49,8 @@ async def game_map(ctx):
                         "|________________________________|" + 
                         "```")
 
+@bot.command()
+async def print(ctx, arg):
+	await ctx.channel.send(arg)
+
 bot.run(TOKEN)
