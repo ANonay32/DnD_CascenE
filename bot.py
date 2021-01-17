@@ -159,8 +159,8 @@ async def load_map(ctx, filename: str):
 		await ctx.channel.send("```" + gmap + "```")
 	except Exception as e:
 		await ctx.channel.send(f"```Error when reading file '{filename}':\n {str(e)}"[0:1996]+"```")
-        
-    
+
+
 
 @bot.command()
 async def listplayers(ctx):
@@ -220,7 +220,7 @@ async def move(ctx, name, newx: int, newy: int):
         await ctx.channel.send("This player does not exist. Check your spelling or use &listplayers.")
         return
 
-    listMap[old[2] * gwidth + old[1] * 2] = " "
+    listMap[old[2] * gwidth + old[1]] = " "
     if len(name) > 1:
         listMap[newy * gwidth + newx] = name[0]
     else:
