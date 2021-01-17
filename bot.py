@@ -82,6 +82,30 @@ async def build(ctx, tlx: int, tly: int, brx: int, bry: int):
     gmap = "".join(chArray)
     
     await ctx.channel.send("```" + gmap + "```")
+    
+@bot.command()
+async def build_spec(ctx, tlx: int, tly: int, brx: int, bry: int, char: str):
+    
+    global gwidth
+    global gheight
+    global gmap
+    
+    chArray = list(gmap)
+    
+    for k in range(abs(tly - bry)):
+        for l in range(abs(tlx - brx)*2):
+            if l == 0 or l == abs(tlx - brx)*2 - 1:
+                chArray[((tly + k)*gwidth + l + tlx*2 + 1)] = char
+            elif k == abs(tly - bry) - 1:
+                chArray[((tly + k)*gwidth + l + tlx*2 + 1)] = char
+            elif k == 0:
+                chArray[((tly + k)*gwidth + l + tlx*2 + 1)] = char
+
+            #await ctx.channel.send(str((tly + k)*gwidth) + " " + str(l) + " " + str(tlx))
+    
+    gmap = "".join(chArray)
+    
+    await ctx.channel.send("```" + gmap + "```")
 
 @bot.command()
 async def repeat(ctx, arg):
