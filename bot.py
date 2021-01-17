@@ -138,12 +138,12 @@ async def save_as(ctx, filename: str):
 		global gmap
 		global gwidth
 		global gheight
-		f = open("_".join(["userFile",ctx.user,filename]), "w")
+		f = open("_".join(["userFile",filename]), "w", encoding="utf-8")
 		f.write("\t".join([str(gwidth), str(gheight), gmap]))
 		f.close()
 		await ctx.channel.send("```File Written```")
 	except Exception as e:
-		await ctx.channel.send(f"```Error when writing file '{filename}' for user {ctx.user} with the following error:\n {str(e)}"[0:1996]+"```")
+		await ctx.channel.send(f"```Error when writing file '{filename}' with the following error:\n {str(e)}"[0:1996]+"```")
 
 @bot.command()
 async def load_map(ctx, filename: str):
@@ -151,13 +151,16 @@ async def load_map(ctx, filename: str):
 		global gmap
 		global gwidth
 		global gheight
-		f = open("_".join(["userFile",ctx.user,filename]), "r")
+		f = open("_".join(["userFile",filename]), "r", encoding="utf-8")
 		temp = f.read()
 		tgwidth, tgheight, gmap = temp.split("\t")
 		gwidth = int(tgwidth)
 		gheight = int(tgheight)
+		await ctx.channel.send("```" + gmap + "```")
 	except Exception as e:
 		await ctx.channel.send(f"```Error when reading file '{filename}':\n {str(e)}"[0:1996]+"```")
+        
+    
 
 @bot.command()
 async def listplayers(ctx):
