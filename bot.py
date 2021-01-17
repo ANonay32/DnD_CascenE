@@ -17,19 +17,7 @@ GUILD = os.getenv('DISCORD_GUILD')
 
 bot = commands.Bot(command_prefix='&')
 
-<<<<<<< HEAD
-@bot.event
-async def on_ready():
-    for guild in bot.guilds:
-        if guild.name == GUILD:
-            break
-    print(
-        f'{bot.user} is connected to the following guild: \n'
-        f'{guild.name}(id: {guild.id})'
-        )
 
-=======
->>>>>>> af4fcdd6e6bb759692eae94151c6c974c36f12e1
 @bot.command()
 async def ping(ctx):
     await ctx.channel.send("pong")
@@ -53,7 +41,7 @@ async def game_map(ctx, width: int, height: int):
                     map += "|"
                 elif i == 0:
                     map += "‾"
-                elif i == height:
+                elif i == height - 1:
                     map += "_"
                 else:
                     map += " "
