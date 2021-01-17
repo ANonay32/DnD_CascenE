@@ -40,7 +40,7 @@ async def game_map(ctx, width: int, height: int):
     gheight = height*2 + 1
 
     gmap = "";
-    if width > height:
+    if width > 70:
         temp = height
         height = width
         width = temp
@@ -275,14 +275,20 @@ async def line(ctx, x0: int, y0: int, x1: int, y1: int, char: str):
 
 
 @bot.command()
-async def picture(ctx, file: str):
+async def picture(ctx, pip_w: int, pip_h: int):
     
     background = cv2.imread('picture1.png')
     overlay = cv2.imread('lucas.png')
     
-    added_image = cv2.addWeighted(background,0.4,overlay,0.1,0)
+    wb, hb, ht = background.shape
+    w, h, t = overlay.shape
     
-    cv2.imwrite('combined.png', added_image)
+    resized_image = cv2.resize(overlay, (h//10, w//10))
+    h1, w1 = resized_image.shape[:2]
+    
+    background[pip_h:pip_h+h1,pip_w:pip_w+w1] = resized_image  # make it PIP
+    
+    cv2.imwrite('combined.png', background)
 
     await ctx.channel.send(file=discord.File('combined.png'))
 
