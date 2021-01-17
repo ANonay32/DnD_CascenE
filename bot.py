@@ -40,22 +40,17 @@ async def game_map(ctx, width: int, height: int):
     if ((width + 1) * height) > 1980:
         await ctx.channel.send("Given dimensions are too large, map area must be smaller than 1980 units")
     else:
+    	width = width*5//2
         for i in range(height):
             for j in range(width):
                 if j == 0 or j == width - 1:
                     map += "|"
-                elif i == 0 and j%2 != 0:
-                    map += "‾‾"
-                elif i == 0 and j%2 == 0:
-                    map += "‾‾‾"
-                elif i == height - 1 and j%2 != 0:
-                    map += "__"
-                elif i == height - 1 and j%2 == 0:
-                    map += "___"
-                elif j%2 == 0:
-                    map += "   "
+                elif i == 0:
+                    map += "‾"
+                elif i == height:
+                    map += "_"
                 else:
-                    map += "  "
+                    map += " "
             map += "\n"
         await ctx.channel.send("```" + map + "```")
 
