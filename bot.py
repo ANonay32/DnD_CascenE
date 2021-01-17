@@ -116,7 +116,7 @@ async def build_spec(ctx, tlx: int, tly: int, brx: int, bry: int, char: str):
         temp = tly
         tly = bry
         bry = temp
-        
+
     for k in range(abs(tly - bry)):
         for l in range(abs(tlx - brx)*2):
             if l == 0 or l == abs(tlx - brx)*2 - 1:
@@ -214,7 +214,7 @@ async def move(ctx, name, newx: int, newy: int):
             old = player
             players.remove(old)
     if old == None:
-        await ctx.channel.send("This player does not exist. Check your spelling or use &players.")
+        await ctx.channel.send("This player does not exist. Check your spelling or use &listplayers.")
         return
 
     listMap[old[2] * gwidth + old[1] * 2] = " "
@@ -230,7 +230,7 @@ async def move(ctx, name, newx: int, newy: int):
 
 @bot.command()
 async def line(ctx, x0: int, y0: int, x1: int, y1: int, char: str):
-    
+
     global gwidth
     global gheight
     global gmap
@@ -242,31 +242,31 @@ async def line(ctx, x0: int, y0: int, x1: int, y1: int, char: str):
     dx = x1 - x0
     dy = y1 - y0
     N =  max(abs(dx), abs(dy)*2);   #may move *2 to l in points loop
-    
+
     for step in range(N+1):
-        
+
         t = 0
         if (N == 0):
             t = 0.0
         else:
             t = step / N
-        
+
         vx = round(x0 + t * dx)
         vy = round(y0 + t * dy)
-        
+
         pxy = (vx, vy)
-        
+
         points.append(pxy)
-        
+
 
     chArray = list(gmap)
-    
-    
+
+
     for pr in points:
         chArray[(pr[1]*gwidth + pr[0]*2 + 1)] = char
-    
+
     gmap = "".join(chArray)
-    
+
     await ctx.channel.send("```" + gmap + "```")
 
 
