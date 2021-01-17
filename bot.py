@@ -69,13 +69,13 @@ async def build(ctx, tlx: int, tly: int, brx: int, bry: int):
     chArray = list(gmap)
     
     for k in range(abs(tly - bry)):
-        for l in range(abs(tlx - brx)):
-            if k == 0:
-                chArray[((tly + k)*gwidth + l*2 + tlx*2 + 1)] = "‾"
+        for l in range(abs(tlx - brx)*2):
+            if l == 0 or l == abs(tlx - brx)*2 - 1:
+                chArray[((tly + k)*gwidth + l + tlx*2 + 1)] = "|"
             elif k == abs(tly - bry) - 1:
-                chArray[((tly + k)*gwidth + l*2 + tlx*2 + 1)] = "_"
-            elif l == 0 or l == abs(tlx - brx) - 1:
-                chArray[((tly + k)*gwidth + l*2 + tlx*2 + 1)] = "|"
+                chArray[((tly + k)*gwidth + l + tlx*2 + 1)] = "_"
+            elif k == 0:
+                chArray[((tly + k)*gwidth + l + tlx*2 + 1)] = "‾"
 
             #await ctx.channel.send(str((tly + k)*gwidth) + " " + str(l) + " " + str(tlx))
     
