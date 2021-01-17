@@ -22,6 +22,7 @@ bot = commands.Bot(command_prefix='&')
 
 players = []
 gmap = ""
+oldgmap = ""
 gwidth = 0
 gheight = 0
 
@@ -70,6 +71,7 @@ async def build(ctx, tlx: int, tly: int, brx: int, bry: int):
     global gwidth
     global gheight
     global gmap
+    global oldgmap
 
     chArray = list(gmap)
 
@@ -82,6 +84,8 @@ async def build(ctx, tlx: int, tly: int, brx: int, bry: int):
         temp = tly
         tly = bry
         bry = temp
+
+    oldgmap = gmap
 
     for k in range(abs(tly - bry)):
         for l in range(abs(tlx - brx)*2):
@@ -105,6 +109,7 @@ async def build_spec(ctx, tlx: int, tly: int, brx: int, bry: int, char: str):
     global gwidth
     global gheight
     global gmap
+    global oldgmap
 
     chArray = list(gmap)
 
@@ -117,6 +122,8 @@ async def build_spec(ctx, tlx: int, tly: int, brx: int, bry: int, char: str):
         temp = tly
         tly = bry
         bry = temp
+
+    oldgmap = gmap
 
     for k in range(abs(tly - bry)):
         for l in range(abs(tlx - brx)*2):
@@ -178,7 +185,9 @@ async def add_player(ctx, name, xpos: int, ypos: int):
     global gmap
     global gwidth
     global gheight
+    global oldgmap
 
+    oldgmap = gmap
     xpos = xpos*2
     valid = True
     if xpos < 0 or xpos > gwidth - 1 or ypos < 0 or ypos > gheight - 1:
@@ -202,9 +211,10 @@ async def move(ctx, name, newx: int, newy: int):
 
     newx = newx*2
     global gmap
+    global oldgmap
     listMap = list(gmap)
     old = None
-
+    oldgmap = gmap
     valid = True
     if newx < 0 or newx > gwidth - 1 or newy < 0 or newy > gheight - 1:
         await ctx.channel.send("Your character would be out of bounds at these coordinates")
@@ -238,10 +248,11 @@ async def line(ctx, x0: int, y0: int, x1: int, y1: int, char: str):
     global gwidth
     global gheight
     global gmap
+    global oldgmap
 
 
     #start
-
+    oldgmap = gmap
     points = [];
     dx = x1 - x0
     dy = y1 - y0
@@ -276,18 +287,18 @@ async def line(ctx, x0: int, y0: int, x1: int, y1: int, char: str):
 
 @bot.command()
 async def picture(ctx, pip_w: int, pip_h: int):
-    
+
     background = cv2.imread('picture1.png')
     overlay = cv2.imread('lucas.png')
-    
+
     wb, hb, ht = background.shape
     w, h, t = overlay.shape
-    
+
     resized_image = cv2.resize(overlay, (h//10, w//10))
     h1, w1 = resized_image.shape[:2]
-    
+
     background[pip_h:pip_h+h1,pip_w:pip_w+w1] = resized_image  # make it PIP
-    
+
     cv2.imwrite('combined.png', background)
 
     await ctx.channel.send(file=discord.File('combined.png'))
@@ -296,5 +307,12 @@ async def picture(ctx, pip_w: int, pip_h: int):
 @bot.command()
 async def repeat(ctx, arg):
 	await ctx.channel.send(arg)
+
+@bot.command()
+async def undo(ctx):
+    global gmap
+    global oldgmap
+    gmap = oldgmap
+    await ctx.channel.send("```" + gmap + "```")
 
 bot.run(TOKEN)
