@@ -17,6 +17,7 @@ GUILD = os.getenv('DISCORD_GUILD')
 
 bot = commands.Bot(command_prefix='&')
 
+players = []
 gmap = ""
 gwidth = 0
 gheight = 0
@@ -26,24 +27,39 @@ async def ping(ctx):
 	await ctx.channel.send("pong")
 
 @bot.command()
+async def addPlayer(ctx, name, xpos, ypos):
+    global players
+    if len(name) > 2:
+        await ctx.channel.send("You have inputted too many initials for your character! Use only one or two letters to represent your character.")
+    if xpos < 0 or xpos > gwidth - 1 or ypos < 0 or ypos > gheight - 1:
+        await ctx.channel.send("Your character would be out of bounds at these coordinates")
+    if len(name) == 1:
+        name += " "
+    listMap = list(gmap)
+    listMap[ypos * gwidth + xpos] = name[0]
+    listMap[ypos * gwidth + xpos + 1] = name[1]
+    players.append((name, xpos, ypos))
+
+
+@bot.command()
 async def game_map(ctx, width: int, height: int):
-    
+
     global gwidth
     global gheight
     global gmap
-    
+
     gwidth = width
     gheight = height
-    
+
     gmap = "";
     if width > height:
         temp = height
         height = width
         width = temp
-    
+
     if ((width + 1) * height) > 1980:
         await ctx.channel.send("Given dimensions are too large, map area must be smaller than 1980 units")
-                
+
     else:
         width = width*2
         for i in range(height):
@@ -61,13 +77,13 @@ async def game_map(ctx, width: int, height: int):
 
 @bot.command()
 async def build(ctx, tlx: int, tly: int, brx: int, bry: int):
-    
+
     global gwidth
     global gheight
     global gmap
-    
+
     chArray = list(gmap)
-    
+
     for k in range(abs(tly - bry)):
         for l in range(abs(tlx - brx)):
             if k == 0:
@@ -78,9 +94,9 @@ async def build(ctx, tlx: int, tly: int, brx: int, bry: int):
                 chArray[((tly + k)*gwidth + l + tlx)*2] = "|"
 
             #await ctx.channel.send(str((tly + k)*gwidth) + " " + str(l) + " " + str(tlx))
-    
+
     gmap = "".join(chArray)
-    
+
     await ctx.channel.send("```" + gmap + "```")
 
 @bot.command()
