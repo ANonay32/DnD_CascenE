@@ -17,6 +17,9 @@ GUILD = os.getenv('DISCORD_GUILD')
 
 bot = commands.Bot(command_prefix='&')
 
+gmap = ""
+gwidth = 0
+gheight = 0
 
 @bot.command()
 async def ping(ctx):
@@ -24,7 +27,15 @@ async def ping(ctx):
 
 @bot.command()
 async def game_map(ctx, width: int, height: int):
-    map = ""
+    
+    global gwidth
+    global gheight
+    global gmap
+    
+    gwidth = width*2 + 1
+    gheight = height*2 + 1
+    
+    gmap = "";
     if width > height:
         temp = height
         height = width
@@ -34,24 +45,75 @@ async def game_map(ctx, width: int, height: int):
         await ctx.channel.send("Given dimensions are too large, map area must be smaller than 1980 units")
                 
     else:
-        width = width*5//2
+        width = width*2
         for i in range(height):
             for j in range(width):
                 if j == 0 or j == width - 1:
-                    map += "|"
+                    gmap += "|"
                 elif i == 0:
-                    map += "‾"
+                    gmap += "‾"
                 elif i == height - 1:
-                    map += "_"
+                    gmap += "_"
                 else:
-                    map += " "
-            map += "\n"
-        await ctx.channel.send("```" + map + "```")
-
-
+                    gmap += " "
+            gmap += "\n"
+        await ctx.channel.send("```" + gmap + "```")
 
 @bot.command()
+async def build(ctx, tlx: int, tly: int, brx: int, bry: int):
+    
+    global gwidth
+    global gheight
+    global gmap
+    
+    chArray = list(gmap)
+    
+    for k in range(abs(tly - bry)):
+        for l in range(abs(tlx - brx)*2):
+            if l == 0 or l == abs(tlx - brx)*2 - 1:
+                chArray[((tly + k)*gwidth + l + tlx*2 + 1)] = "|"
+            elif k == abs(tly - bry) - 1:
+                chArray[((tly + k)*gwidth + l + tlx*2 + 1)] = "_"
+            elif k == 0:
+                chArray[((tly + k)*gwidth + l + tlx*2 + 1)] = "‾"
+
+            #await ctx.channel.send(str((tly + k)*gwidth) + " " + str(l) + " " + str(tlx))
+    
+    gmap = "".join(chArray)
+    
+    await ctx.channel.send("```" + gmap + "```")
+    
+@bot.command()
+async def build_spec(ctx, tlx: int, tly: int, brx: int, bry: int, char: str):
+    
+    global gwidth
+    global gheight
+    global gmap
+    
+    chArray = list(gmap)
+    
+    for k in range(abs(tly - bry)):
+        for l in range(abs(tlx - brx)*2):
+            if l == 0 or l == abs(tlx - brx)*2 - 1:
+                chArray[((tly + k)*gwidth + l + tlx*2 + 1)] = char
+            elif k == abs(tly - bry) - 1:
+                chArray[((tly + k)*gwidth + l + tlx*2 + 1)] = char
+            elif k == 0:
+                chArray[((tly + k)*gwidth + l + tlx*2 + 1)] = char
+
+            #await ctx.channel.send(str((tly + k)*gwidth) + " " + str(l) + " " + str(tlx))
+    
+    gmap = "".join(chArray)
+    
+    await ctx.channel.send("```" + gmap + "```")
+
+@bot.command()
+<<<<<<< HEAD
 async def print(ctx, arg):
     await ctx.channel.send(arg)
+=======
+async def repeat(ctx, arg):
+	await ctx.channel.send(arg)
+>>>>>>> 1d6e41f2f58981731df895f513a31f2baff5994c
 
 bot.run(TOKEN)
