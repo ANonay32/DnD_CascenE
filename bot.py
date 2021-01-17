@@ -108,6 +108,33 @@ async def build_spec(ctx, tlx: int, tly: int, brx: int, bry: int, char: str):
     await ctx.channel.send("```" + gmap + "```")
 
 @bot.command()
+async def save_as(ctx, filename: str):
+	try:
+		global gmap
+		global gwidth
+		global gheight
+		f = open("_".join(["userFile",ctx.user,filename]), "w")
+		f.write("\t".join([gwidth, gheight, gmap]))
+		f.close()
+		await ctx.channel.send("```File Written```")
+	except Exception as e:
+		await ctx.channel.send(f"```Error when writing file '{filename}' for user {ctx.user} with the following error:\n {str(e)}"[0:1996]+"```")
+
+@bot.command()
+async def load_map(ctx, filename: str):
+	try:
+		global gmap
+		global gwidth
+		global gheight
+		f = open("_".join(["userFile",ctx.user,filename]), "r")
+		temp = f.read()
+		gwidth, gheight, gmap = temp.split("\t")
+	except Exception as e:
+		await ctx.channel.send(f"```Error when reading file '{filename}' for {ctx.user}:\n {str(e)}"[0:1996]+"```")
+
+
+
+@bot.command()
 <<<<<<< HEAD
 async def print(ctx, arg):
     await ctx.channel.send(arg)
