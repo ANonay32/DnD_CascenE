@@ -112,6 +112,8 @@ async def build_spec(ctx, tlx: int, tly: int, brx: int, bry: int, char: str):
 async def add_player(ctx, name, xpos: int, ypos: int):
     global players
     global gmap
+    global gwidth
+    global gheight
 
     valid = True
     if xpos < 0 or xpos > gwidth - 1 or ypos < 0 or ypos > gheight - 1:
