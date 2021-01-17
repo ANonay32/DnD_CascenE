@@ -170,5 +170,4 @@ async def add_player(ctx, name, xpos: int, ypos: int):
 async def repeat(ctx, arg):
 	await ctx.channel.send(arg)
 >>>>>>> 1d6e41f2f58981731df895f513a31f2baff5994c
-
 bot.run(TOKEN)
