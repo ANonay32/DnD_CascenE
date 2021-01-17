@@ -1,13 +1,4 @@
 # -*- coding: utf-8 -*-
-<<<<<<< HEAD
-
-=======
-"""
-Created on Sat Jan 16 22:26:21 2021
-
-@author: lucas, Arthur, Noah, Klondike
-"""
->>>>>>> dc4b8edf73eb58e7cbeeae07c7bfea1eaf6ad036
 
 
 import nest_asyncio
@@ -105,12 +96,8 @@ async def build(ctx, tlx: int, tly: int, brx: int, bry: int):
     gmap = "".join(chArray)
 
     await ctx.channel.send("```" + gmap + "```")
-<<<<<<< Updated upstream
 
-=======
-    
-    
->>>>>>> Stashed changes
+
 @bot.command()
 async def build_spec(ctx, tlx: int, tly: int, brx: int, bry: int, char: str):
 
@@ -229,9 +216,7 @@ async def move(ctx, name, newx: int, newy: int):
         players.append((name, newx, newy))
         gmap = "".join(listMap)
         await ctx.channel.send("```" + gmap + "```")
-<<<<<<< HEAD
-<<<<<<< HEAD
-        
+
 @bot.command()
 async def line(ctx, x0: int, y0: int, x1: int, y1: int, char: str):
     
@@ -274,8 +259,6 @@ async def line(ctx, x0: int, y0: int, x1: int, y1: int, char: str):
     await ctx.channel.send("```" + gmap + "```")
 
 
-<<<<<<< Updated upstream
-=======
 
 
 @bot.command()
@@ -326,15 +309,9 @@ async def line(ctx, x0: int, y0: int, x1: int, y1: int, char: str):
     await ctx.channel.send("```" + gmap + "```")
 
 
->>>>>>> Stashed changes
-@bot.command()
-async def repeat(ctx, arg):
-	await ctx.channel.send(arg)
-
-=======
 
 @bot.command()
 async def repeat(ctx, arg):
 	await ctx.channel.send(arg)
-bot.run(TOKEN)
->>>>>>> dc4b8edf73eb58e7cbeeae07c7bfea1eaf6ad036
+
+
