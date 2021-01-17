@@ -217,6 +217,7 @@ async def move(ctx, name, newx: int, newy: int):
         gmap = "".join(listMap)
         await ctx.channel.send("```" + gmap + "```")
 
+
 @bot.command()
 async def line(ctx, x0: int, y0: int, x1: int, y1: int, char: str):
     
@@ -253,56 +254,6 @@ async def line(ctx, x0: int, y0: int, x1: int, y1: int, char: str):
     
     for pr in points:
         chArray[(pr[1]*gwidth + pr[0]*2 + 1)] = char
-    
-    gmap = "".join(chArray)
-    
-    await ctx.channel.send("```" + gmap + "```")
-
-
-
-
-@bot.command()
-async def line(ctx, x0: int, y0: int, x1: int, y1: int, char: str):
-    
-    global gwidth
-    global gheight
-    global gmap
-    
-
-    #start
-
-    points = [];
-    dx = x1 - x0
-    dy = y1 - y0
-    N =  max(abs(dx), abs(dy));
-    
-    for step in range(N+1):
-        
-        t = 0
-        if (N == 0):
-            t = 0.0
-        else:
-            t = step / N
-        
-        vx = round(x0 + t * dx)
-        vy = round(y0 + t * dy)
-        
-        points.append(vx)
-        points.append(vy)
-        
-
-    chArray = list(gmap)
-    
-    for k in range(abs(tly - bry)):
-        for l in range(abs(tlx - brx)*2):
-            if l == 0 or l == abs(tlx - brx)*2 - 1:
-                chArray[((tly + k)*gwidth + l + tlx*2 + 1)] = char
-            elif k == abs(tly - bry) - 1:
-                chArray[((tly + k)*gwidth + l + tlx*2 + 1)] = char
-            elif k == 0:
-                chArray[((tly + k)*gwidth + l + tlx*2 + 1)] = char
-
-            #await ctx.channel.send(str((tly + k)*gwidth) + " " + str(l) + " " + str(tlx))
     
     gmap = "".join(chArray)
     
