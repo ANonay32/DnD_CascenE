@@ -17,6 +17,8 @@ GUILD = os.getenv('DISCORD_GUILD')
 
 bot = commands.Bot(command_prefix='&')
 
+gmap = ""
+
 
 @bot.command()
 async def ping(ctx):
@@ -24,7 +26,7 @@ async def ping(ctx):
 
 @bot.command()
 async def game_map(ctx, width: int, height: int):
-    map = ""
+    global gmap
     if width > height:
         temp = height
         height = width
@@ -38,17 +40,19 @@ async def game_map(ctx, width: int, height: int):
         for i in range(height):
             for j in range(width):
                 if j == 0 or j == width - 1:
-                    map += "|"
+                    gmap += "|"
                 elif i == 0:
-                    map += "‾"
+                    gmap += "‾"
                 elif i == height - 1:
-                    map += "_"
+                    gmap += "_"
                 else:
-                    map += " "
-            map += "\n"
-        await ctx.channel.send("```" + map + "```")
+                    gmap += " "
+            gmap += "\n"
+        await ctx.channel.send("```" + gmap + "```")
 
-
+@bot.command()
+async def disp(ctx):
+	await ctx.channel.send("```" + gmap + "```")
 
 @bot.command()
 async def print(ctx, arg):
