@@ -159,8 +159,8 @@ async def load_map(ctx, filename: str):
 		await ctx.channel.send("```" + gmap + "```")
 	except Exception as e:
 		await ctx.channel.send(f"```Error when reading file '{filename}':\n {str(e)}"[0:1996]+"```")
-        
-    
+
+
 
 @bot.command()
 async def listplayers(ctx):
