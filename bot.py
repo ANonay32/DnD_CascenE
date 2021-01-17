@@ -10,8 +10,9 @@ if (not os.environ.get('PYTHONHTTPSVERIFY', '') and getattr(ssl, '_create_unveri
 #import discord
 
 from discord.ext import commands
-
+import cv2
 from dotenv import load_dotenv
+import discord
 
 load_dotenv()
 TOKEN = os.getenv('DISCORD_TOKEN')
@@ -272,6 +273,18 @@ async def line(ctx, x0: int, y0: int, x1: int, y1: int, char: str):
 
     await ctx.channel.send("```" + gmap + "```")
 
+
+@bot.command()
+async def picture(ctx, file: str):
+    
+    background = cv2.imread('picture1.png')
+    overlay = cv2.imread('lucas.png')
+    
+    added_image = cv2.addWeighted(background,0.4,overlay,0.1,0)
+    
+    cv2.imwrite('combined.png', added_image)
+
+    await ctx.channel.send(file=discord.File('combined.png'))
 
 
 @bot.command()
