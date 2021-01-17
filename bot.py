@@ -112,16 +112,23 @@ async def build_spec(ctx, tlx: int, tly: int, brx: int, bry: int, char: str):
 async def add_player(ctx, name, xpos: int, ypos: int):
     global players
     global gmap
-    
-    if len(name) > 1:
-        await ctx.channel.send("You have inputted too many initials for your character! Use only one symbol to represent your character.")
+
+    valid = True
     if xpos < 0 or xpos > gwidth - 1 or ypos < 0 or ypos > gheight - 1:
         await ctx.channel.send("Your character would be out of bounds at these coordinates")
+        valid = False
     listMap = list(gmap)
-    listMap[ypos * gwidth + xpos] = name
-    players.append((name, xpos, ypos))
-    gmap = "".join(listMap)
-    await ctx.channel.send("```" + gmap + "```")
+    if listMap[ypos * gwidth + xpos] != " ":
+        await ctx.channel.send("Your character would be inside a wall or something at these coordinates")
+        valid = False
+    if len(name) > 1:
+        listMap[ypos * gwidth + xpos] = name[0]
+    else:
+        listMap[ypos * gwidth + xpos] = name
+    if valid:
+        players.append((name, xpos, ypos))
+        gmap = "".join(listMap)
+        await ctx.channel.send("```" + gmap + "```")
 
 @bot.command()
 async def repeat(ctx, arg):
