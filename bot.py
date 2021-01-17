@@ -136,6 +136,33 @@ async def load_map(ctx, filename: str):
 	except Exception as e:
 		await ctx.channel.send(f"```Error when reading file '{filename}' for {ctx.user}:\n {str(e)}"[0:1996]+"```")
 
+@bot.command()
+async def move(ctx, name, newx: int, newy: int):
+    if name not in players:
+        await ctx.channel.send("This player does not exist. Check your spelling or use &players.")
+        return
+    listMap = list(gmap)
+    old = None
+    for player in players:
+        if player[0] == name:
+            old = player
+    valid = True
+    if newx < 0 or newx > gwidth - 1 or newy < 0 or newy > gheight - 1:
+        await ctx.channel.send("Your character would be out of bounds at these coordinates")
+        valid = False
+    if listMap[newy * gwidth + newx] != " ":
+        await ctx.channel.send("Your character would be inside a wall or something at these coordinates")
+        valid = False
+
+    listMap[old[2] * gwidth + old[1]] = " "
+    if len(name) > 1:
+        listMap[newy * gwidth + newx] = name[0]
+    else:
+        listMap[newy * gwidth + newx] = name
+    if valid:
+        players.append((name, xpos, ypos))
+        gmap = "".join(listMap)
+        await ctx.channel.send("```" + gmap + "```")
 
 
 @bot.command()
