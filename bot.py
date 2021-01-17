@@ -116,7 +116,7 @@ async def save_as(ctx, filename: str):
 		global gwidth
 		global gheight
 		f = open("_".join(["userFile",ctx.user,filename]), "w")
-		f.write("\t".join([gwidth, gheight, gmap]))
+		f.write("\t".join([str(gwidth), str(gheight), gmap]))
 		f.close()
 		await ctx.channel.send("```File Written```")
 	except Exception as e:
@@ -130,7 +130,9 @@ async def load_map(ctx, filename: str):
 		global gheight
 		f = open("_".join(["userFile",ctx.user,filename]), "r")
 		temp = f.read()
-		gwidth, gheight, gmap = temp.split("\t")
+		tgwidth, tgheight, gmap = temp.split("\t")
+		gwidth = int(tgwidth)
+		gheight = int(tgheight)
 	except Exception as e:
 		await ctx.channel.send(f"```Error when reading file '{filename}' for {ctx.user}:\n {str(e)}"[0:1996]+"```")
 
