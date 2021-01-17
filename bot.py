@@ -27,20 +27,6 @@ async def ping(ctx):
 	await ctx.channel.send("pong")
 
 @bot.command()
-async def addPlayer(ctx, name, xpos, ypos):
-    global players
-    if len(name) > 1:
-        await ctx.channel.send("You have inputted too many initials for your character! Use only one symbol to represent your character.")
-    if xpos < 0 or xpos > gwidth - 1 or ypos < 0 or ypos > gheight - 1:
-        await ctx.channel.send("Your character would be out of bounds at these coordinates")
-    listMap = list(gmap)
-    listMap[ypos * gwidth + xpos] = name
-    players.append((name, xpos, ypos))
-    gmap = "".join(listMap)
-    await ctx.channel.send("```" + gmap + "```")
-
-
-@bot.command()
 async def game_map(ctx, width: int, height: int):
 
     global gwidth
@@ -120,6 +106,21 @@ async def build_spec(ctx, tlx: int, tly: int, brx: int, bry: int, char: str):
 
     gmap = "".join(chArray)
 
+    await ctx.channel.send("```" + gmap + "```")
+
+@bot.command()
+async def add_player(ctx, name, xpos: int, ypos: int):
+    global players
+    global gmap
+    
+    if len(name) > 1:
+        await ctx.channel.send("You have inputted too many initials for your character! Use only one symbol to represent your character.")
+    if xpos < 0 or xpos > gwidth - 1 or ypos < 0 or ypos > gheight - 1:
+        await ctx.channel.send("Your character would be out of bounds at these coordinates")
+    listMap = list(gmap)
+    listMap[ypos * gwidth + xpos] = name
+    players.append((name, xpos, ypos))
+    gmap = "".join(listMap)
     await ctx.channel.send("```" + gmap + "```")
 
 @bot.command()
