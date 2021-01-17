@@ -31,10 +31,16 @@ async def game_map(ctx, width: int, height: int):
             for j in range(width):
                 if j == 0 or j == width - 1:
                     map += "|"
-                elif i == 0:
+                elif i == 0 and j%2 != 0:
                     map += "‾‾"
-                elif i == height - 1:
+                elif i == 0 and j%2 == 0:
+                    map += "‾‾‾"
+                elif i == height - 1 and j%2 != 0:
                     map += "__"
+                elif i == height - 1 and j%2 == 0:
+                    map += "___"
+                elif j%2 == 0:
+                    map += "   "
                 else:
                     map += "  "
             map += "\n"
