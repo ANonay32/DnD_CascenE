@@ -107,6 +107,16 @@ async def build_spec(ctx, tlx: int, tly: int, brx: int, bry: int, char: str):
 
     chArray = list(gmap)
 
+    if tlx>brx:
+        temp = tlx
+        tlx = brx
+        brx = temp
+
+    if tly>bry:
+        temp = tly
+        tly = bry
+        bry = temp
+        
     for k in range(abs(tly - bry)):
         for l in range(abs(tlx - brx)*2):
             if l == 0 or l == abs(tlx - brx)*2 - 1:
