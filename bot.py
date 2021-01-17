@@ -1,3 +1,10 @@
+# -*- coding: utf-8 -*-
+"""
+Created on Sat Jan 16 22:26:21 2021
+
+@author: lucas, Arthur, Noah, Klondike
+"""
+
 
 import nest_asyncio
 nest_asyncio.apply()
@@ -72,11 +79,11 @@ async def build(ctx, tlx: int, tly: int, brx: int, bry: int):
     for k in range(abs(tly - bry)):
         for l in range(abs(tlx - brx)*2):
             if l == 0 or l == abs(tlx - brx)*2 - 1:
-                chArray[((tly + k)*gwidth + l + tlx*2 + 1)] = "|"
+                chArray[((tly + k)*gwidth + l + tlx*2)] = "‖"
             elif k == abs(tly - bry) - 1:
-                chArray[((tly + k)*gwidth + l + tlx*2 + 1)] = "_"
+                chArray[((tly + k)*gwidth + l + tlx*2)] = "‗"
             elif k == 0:
-                chArray[((tly + k)*gwidth + l + tlx*2 + 1)] = "‾"
+                chArray[((tly + k)*gwidth + l + tlx*2)] = "˭"
 
             #await ctx.channel.send(str((tly + k)*gwidth) + " " + str(l) + " " + str(tlx))
 
@@ -109,18 +116,17 @@ async def build_spec(ctx, tlx: int, tly: int, brx: int, bry: int, char: str):
     await ctx.channel.send("```" + gmap + "```")
 
 @bot.command()
-<<<<<<< HEAD
 async def save_as(ctx, filename: str):
 	try:
 		global gmap
 		global gwidth
 		global gheight
-		f = open("_".join(["userFile",filename]), "w")
+		f = open("_".join(["userFile",ctx.user,filename]), "w")
 		f.write("\t".join([str(gwidth), str(gheight), gmap]))
 		f.close()
 		await ctx.channel.send("```File Written```")
 	except Exception as e:
-		await ctx.channel.send(f"```Error when writing file '{filename}' with the following error:\n {str(e)}"[0:1996]+"```")
+		await ctx.channel.send(f"```Error when writing file '{filename}' for user {ctx.user} with the following error:\n {str(e)}"[0:1996]+"```")
 
 @bot.command()
 async def load_map(ctx, filename: str):
@@ -128,13 +134,44 @@ async def load_map(ctx, filename: str):
 		global gmap
 		global gwidth
 		global gheight
-		f = open("_".join(["userFile",filename]), "r")
+		f = open("_".join(["userFile",ctx.user,filename]), "r")
 		temp = f.read()
 		tgwidth, tgheight, gmap = temp.split("\t")
 		gwidth = int(tgwidth)
 		gheight = int(tgheight)
 	except Exception as e:
-		await ctx.channel.send(f"```Error when reading file '{filename}':\n {str(e)}"[0:1996]+"```")
+		await ctx.channel.send(f"```Error when reading file '{filename}' for {ctx.user}:\n {str(e)}"[0:1996]+"```")
+
+
+
+@bot.command()
+async def print(ctx, arg):
+    await ctx.channel.send(arg)
+
+@bot.command()
+async def add_player(ctx, name, xpos: int, ypos: int):
+    global players
+    global gmap
+    global gwidth
+    global gheight
+    
+    xpos = xpos*2
+    valid = True
+    if xpos < 0 or xpos > gwidth - 1 or ypos < 0 or ypos > gheight - 1:
+        await ctx.channel.send("Your character would be out of bounds at these coordinates")
+        valid = False
+    listMap = list(gmap)
+    if listMap[ypos * gwidth + xpos] != " ":
+        await ctx.channel.send("Your character would be inside a wall or something at these coordinates")
+        valid = False
+    if len(name) > 1:
+        listMap[ypos * gwidth + xpos] = name[0]
+    else:
+        listMap[ypos * gwidth + xpos] = name
+    if valid:
+        players.append((name, xpos, ypos))
+        gmap = "".join(listMap)
+        await ctx.channel.send("```" + gmap + "```")
 
 @bot.command()
 async def move(ctx, name, newx: int, newy: int):
@@ -163,40 +200,8 @@ async def move(ctx, name, newx: int, newy: int):
         players.append((name, xpos, ypos))
         gmap = "".join(listMap)
         await ctx.channel.send("```" + gmap + "```")
-
-
+        
 @bot.command()
-<<<<<<< HEAD
-async def print(ctx, arg):
-    await ctx.channel.send(arg)
-=======
-=======
-async def add_player(ctx, name, xpos: int, ypos: int):
-    global players
-    global gmap
-    global gwidth
-    global gheight
-
-    valid = True
-    if xpos < 0 or xpos > gwidth - 1 or ypos < 0 or ypos > gheight - 1:
-        await ctx.channel.send("Your character would be out of bounds at these coordinates")
-        valid = False
-    listMap = list(gmap)
-    if listMap[ypos * gwidth + xpos] != " ":
-        await ctx.channel.send("Your character would be inside a wall or something at these coordinates")
-        valid = False
-    if len(name) > 1:
-        listMap[ypos * gwidth + xpos] = name[0]
-    else:
-        listMap[ypos * gwidth + xpos] = name
-    if valid:
-        players.append((name, xpos, ypos))
-        gmap = "".join(listMap)
-        await ctx.channel.send("```" + gmap + "```")
-
-@bot.command()
->>>>>>> cad1c5dd70b786555027484e7d38e469afb695de
 async def repeat(ctx, arg):
 	await ctx.channel.send(arg)
->>>>>>> 1d6e41f2f58981731df895f513a31f2baff5994c
 bot.run(TOKEN)
