@@ -275,4 +275,4 @@ async def line(ctx, x0: int, y0: int, x1: int, y1: int, char: str):
 async def repeat(ctx, arg):
 	await ctx.channel.send(arg)
 
-
+bot.run(TOKEN)
