@@ -80,7 +80,7 @@ async def build(ctx, tlx: int, tly: int, brx: int, bry: int):
         temp = tlx
         tlx = brx
         brx = temp
-        
+
     if tly>bry:
         temp = tly
         tly = bry
@@ -205,12 +205,12 @@ async def move(ctx, name, newx: int, newy: int):
     for player in players:
         if player[0] == name:
             old = player
-            players.remove(old)           
+            players.remove(old)
     if old == None:
         await ctx.channel.send("This player does not exist. Check your spelling or use &players.")
         return
 
-    listMap[old[2] * gwidth + old[1]] = " "
+    listMap[old[2] * gwidth + old[1] * 2] = " "
     if len(name) > 1:
         listMap[newy * gwidth + newx] = name[0]
     else:
