@@ -143,7 +143,7 @@ async def load_map(ctx, filename: str):
 		await ctx.channel.send(f"```Error when reading file '{filename}':\n {str(e)}"[0:1996]+"```")
 
 @bot.command()
-async def players(ctx):
+async def listplayers(ctx):
     for player in players:
         await ctx.channel.send(player[0])
 
@@ -178,15 +178,12 @@ async def add_player(ctx, name, xpos: int, ypos: int):
 
 @bot.command()
 async def move(ctx, name, newx: int, newy: int):
+    
+    newx = newx*2
+    global gmap
     listMap = list(gmap)
     old = None
-    for player in players:
-        if player[0] == name:
-            old = player
-            players.remove(player)
-    if old == None:
-        await ctx.channel.send("This player does not exist. Check your spelling or use &players.")
-        return
+    
     valid = True
     if newx < 0 or newx > gwidth - 1 or newy < 0 or newy > gheight - 1:
         await ctx.channel.send("Your character would be out of bounds at these coordinates")
@@ -194,7 +191,15 @@ async def move(ctx, name, newx: int, newy: int):
     if listMap[newy * gwidth + newx] != " ":
         await ctx.channel.send("Your character would be inside a wall or something at these coordinates")
         valid = False
-
+        
+    for player in players:
+        if player[0] == name:
+            old = player
+           
+        if old == None:
+                await ctx.channel.send("This player does not exist. Check your spelling or use &players.")
+                return
+        
     listMap[old[2] * gwidth + old[1]] = " "
     if len(name) > 1:
         listMap[newy * gwidth + newx] = name[0]
