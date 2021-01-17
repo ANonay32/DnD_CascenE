@@ -37,8 +37,14 @@ async def ping(ctx):
 @bot.command()
 async def game_map(ctx, width: int, height: int):
     map = ""
+    if width > height:
+        temp = height
+        height = width
+        width = temp
+    
     if ((width + 1) * height) > 1980:
         await ctx.channel.send("Given dimensions are too large, map area must be smaller than 1980 units")
+                
     else:
     	width = width*5//2
         for i in range(height):
