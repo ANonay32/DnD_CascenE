@@ -175,6 +175,9 @@ async def add_player(ctx, name, xpos: int, ypos: int):
 
 @bot.command()
 async def move(ctx, name, newx: int, newy: int):
+    
+    global gmap
+    
     if name not in players:
         await ctx.channel.send("This player does not exist. Check your spelling or use &players.")
         return
