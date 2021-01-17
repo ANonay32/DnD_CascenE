@@ -32,7 +32,7 @@ async def on_ready():
 >>>>>>> af4fcdd6e6bb759692eae94151c6c974c36f12e1
 @bot.command()
 async def ping(ctx):
-	await ctx.channel.send("pong")
+    await ctx.channel.send("pong")
 
 @bot.command()
 async def game_map(ctx, width: int, height: int):
@@ -46,7 +46,7 @@ async def game_map(ctx, width: int, height: int):
         await ctx.channel.send("Given dimensions are too large, map area must be smaller than 1980 units")
                 
     else:
-    	width = width*5//2
+        width = width*5//2
         for i in range(height):
             for j in range(width):
                 if j == 0 or j == width - 1:
@@ -64,6 +64,6 @@ async def game_map(ctx, width: int, height: int):
 
 @bot.command()
 async def print(ctx, arg):
-	await ctx.channel.send(arg)
+    await ctx.channel.send(arg)
 
 bot.run(TOKEN)
