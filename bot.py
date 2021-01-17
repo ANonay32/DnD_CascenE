@@ -109,7 +109,6 @@ async def build_spec(ctx, tlx: int, tly: int, brx: int, bry: int, char: str):
     await ctx.channel.send("```" + gmap + "```")
 
 @bot.command()
-<<<<<<< HEAD
 async def save_as(ctx, filename: str):
 	try:
 		global gmap
@@ -138,14 +137,14 @@ async def load_map(ctx, filename: str):
 
 @bot.command()
 async def move(ctx, name, newx: int, newy: int):
-    if name not in players:
-        await ctx.channel.send("This player does not exist. Check your spelling or use &players.")
-        return
     listMap = list(gmap)
     old = None
     for player in players:
         if player[0] == name:
             old = player
+    if old == None:
+        await ctx.channel.send("This player does not exist. Check your spelling or use &players.")
+        return
     valid = True
     if newx < 0 or newx > gwidth - 1 or newy < 0 or newy > gheight - 1:
         await ctx.channel.send("Your character would be out of bounds at these coordinates")
@@ -164,13 +163,16 @@ async def move(ctx, name, newx: int, newy: int):
         gmap = "".join(listMap)
         await ctx.channel.send("```" + gmap + "```")
 
+@bot.command()
+async def players(ctx):
+    for player in players:
+        await ctx.channel.send(player[0])
 
 @bot.command()
-<<<<<<< HEAD
 async def print(ctx, arg):
     await ctx.channel.send(arg)
-=======
-=======
+
+@bot.command()
 async def add_player(ctx, name, xpos: int, ypos: int):
     global players
     global gmap
@@ -195,8 +197,7 @@ async def add_player(ctx, name, xpos: int, ypos: int):
         await ctx.channel.send("```" + gmap + "```")
 
 @bot.command()
->>>>>>> cad1c5dd70b786555027484e7d38e469afb695de
 async def repeat(ctx, arg):
 	await ctx.channel.send(arg)
->>>>>>> 1d6e41f2f58981731df895f513a31f2baff5994c
+
 bot.run(TOKEN)
