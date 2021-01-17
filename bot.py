@@ -36,6 +36,8 @@ async def addPlayer(ctx, name, xpos, ypos):
     listMap = list(gmap)
     listMap[ypos * gwidth + xpos] = name
     players.append((name, xpos, ypos))
+    gmap = "".join(listMap)
+    await ctx.channel.send("```" + gmap + "```")
 
 
 @bot.command()
